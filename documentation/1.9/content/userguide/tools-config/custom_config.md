@@ -6,7 +6,7 @@ weight: 3
 ---
 
 
-WDT allows you to create or extend the pre-installed type definitions, model filters, variable injectors, and target environments. Starting with WDT 1.10.0, these additional configuration files can be stored outside the `$WLSDEPLOY_HOME/lib` directory. This allows the files to remain in place if the WDT installation is moved or upgraded to a new version.
+WDT allows you to create or extend the pre-installed type definitions, model filters, variable injectors, and target environments. These additional configuration files can be stored outside the `$WLSDEPLOY_HOME/lib` directory. This allows the files to remain in place if the WDT installation is moved or upgraded to a new version.
 
 To use a separate configuration directory, set the `WDT_CUSTOM_CONFIG` environment variable to the directory to be used for configuration. For example:
 ```
