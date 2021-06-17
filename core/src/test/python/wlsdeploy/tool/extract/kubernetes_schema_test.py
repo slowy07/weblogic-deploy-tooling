@@ -16,7 +16,6 @@ from wlsdeploy.util import dictionary_utils
 class KubernetesSchemaTest(unittest.TestCase):
     _model_dir = '../../unit-tests/wko'
     _model_path = _model_dir + '/model.yaml'
-    _object_types = ['object', None]
 
     def setUp(self):
         self.schema_map = wko_schema_helper.get_domain_resource_schema()
@@ -45,8 +44,7 @@ class KubernetesSchemaTest(unittest.TestCase):
         self._write_line("\n" + indent + label + ":")
         indent = indent + "  "
 
-        properties = folder["properties"]
-        properties = properties or {}
+        properties = wko_schema_helper.get_properties(folder)
 
         multi_key = None
         if is_multiple:
@@ -71,7 +69,7 @@ class KubernetesSchemaTest(unittest.TestCase):
 
             property_type = dictionary_utils.get_element(property_map, "type")
 
-            if property_type in self._object_types:
+            if property_type in wko_schema_helper.OBJECT_TYPES:
                 additional = dictionary_utils.get_dictionary_element(property_map, "additionalProperties")
                 additional_type = dictionary_utils.get_element(additional, "type")
                 if additional_type:
@@ -88,7 +86,7 @@ class KubernetesSchemaTest(unittest.TestCase):
             elif property_type == "array":
                 array_items = dictionary_utils.get_dictionary_element(property_map, "items")
                 array_type = dictionary_utils.get_element(array_items, "type")
-                if array_type in self._object_types:
+                if array_type in wko_schema_helper.OBJECT_TYPES:
                     # multiple object instances
                     sub_folders[property_name] = array_items
                     multi_sub_folders.append(property_name)

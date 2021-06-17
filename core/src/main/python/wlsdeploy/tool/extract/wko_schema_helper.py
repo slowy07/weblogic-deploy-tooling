@@ -21,6 +21,11 @@ SIMPLE_TYPES = [
     'boolean'
 ]
 
+OBJECT_TYPES = [
+    'object',
+    None
+]
+
 UNSUPPORTED_FOLDERS = [
     'status',
     'metadata/initializers',
@@ -64,7 +69,7 @@ def is_single_folder(schema_map):
     :return: True if the map identifies a single folder
     """
     property_type = get_type(schema_map)
-    if property_type == "object":
+    if property_type in OBJECT_TYPES:
         return get_map_element_type(schema_map) is None
     return False
 
@@ -77,7 +82,7 @@ def is_multiple_folder(schema_map):
     """
     property_type = get_type(schema_map)
     if property_type == "array":
-        return get_array_element_type(schema_map) == "object"
+        return get_array_element_type(schema_map) in OBJECT_TYPES
     return False
 
 
@@ -92,7 +97,7 @@ def is_simple_map(schema_map):
     :return: True if the map identifies a simple map
     """
     property_type = get_type(schema_map)
-    if property_type == "object":
+    if property_type in OBJECT_TYPES:
         return get_map_element_type(schema_map) is not None
     return False
 
@@ -105,7 +110,7 @@ def is_simple_array(schema_map):
     """
     property_type = get_type(schema_map)
     if property_type == "array":
-        return get_array_element_type(schema_map) != "object"
+        return get_array_element_type(schema_map) not in OBJECT_TYPES
     return False
 
 
@@ -124,7 +129,8 @@ def get_array_item_info(schema_map):
 
 
 def get_properties(schema_map):
-    return dictionary_utils.get_element(schema_map, "properties")
+    properties = dictionary_utils.get_element(schema_map, "properties")
+    return properties or {}
 
 
 def get_type(schema_map):
