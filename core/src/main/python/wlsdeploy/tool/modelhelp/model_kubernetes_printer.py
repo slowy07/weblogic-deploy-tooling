@@ -200,10 +200,10 @@ class ModelKubernetesPrinter(object):
 def _get_properties(schema_folder):
     # in array elements, the properties are under "items"
     if wko_schema_helper.is_multiple_folder(schema_folder):
-        properties = schema_folder['items']['properties']
+        item_info = wko_schema_helper.get_array_item_info(schema_folder)
+        return wko_schema_helper.get_properties(item_info)
     else:
-        properties = schema_folder['properties']
-    return properties or {}
+        return wko_schema_helper.get_properties(schema_folder)
 
 
 def _get_folder_names(schema_properties):
