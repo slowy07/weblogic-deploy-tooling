@@ -15,6 +15,7 @@ DOMAIN_RESOURCE_SCHEMA_FILE = 'domain-crd-schema-v8.json'
 DOMAIN_RESOURCE_SCHEMA_PATH = 'oracle/weblogic/deploy/wko/' + DOMAIN_RESOURCE_SCHEMA_FILE
 
 SIMPLE_TYPES = [
+    'integer',
     'number',
     'string',
     'boolean'
