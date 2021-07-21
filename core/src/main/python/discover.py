@@ -148,6 +148,17 @@ def __process_archive_filename_arg(argument_map):
     return
 
 
+def _check_archive_file_for_entries(model_context):
+    _method_name = '_check_archive_file_for_entries'
+    archive_file = model_context.get_archive_file()
+    if not archive_file.hasArchiveFile():
+        return
+    entries = archive_file.getArchiveEntries()
+    # for some reason it sticks the model file in the archive even if it gets rid of it later
+    if entries is not None and len(entries) == 1:
+        __logger.info('WLSDPLY-06030', class_name=_class_name, method_name=_method_name)
+
+
 def __process_variable_filename_arg(optional_arg_map):
     """
     If the variable filename argument is present, the required model variable injector json file must exist in
@@ -560,6 +571,7 @@ def main(args):
                         error=ex, class_name=_class_name, method_name=_method_name)
         __log_and_exit(model_context, CommandLineArgUtil.PROG_ERROR_EXIT_CODE, _class_name, _method_name)
 
+    _check_archive_file_for_entries(model_context)
     __close_archive(model_context)
 
     __log_and_exit(model_context, exit_code, _class_name, _method_name)
